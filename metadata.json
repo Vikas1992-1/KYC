@@ -1,0 +1,5 @@
+{
+  "name": "PayZipp KYC Onboarding",
+  "description": "A loan application form for onboarding customers with KYC document uploads.",
+  "requestFramePermissions": ["camera"]
+}
