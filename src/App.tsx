@@ -375,10 +375,6 @@ export default function App() {
               <div className="max-w-5xl mx-auto px-6 text-center">
                 <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6 leading-tight">Digital KYC Made Simple</h1>
                 <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Streamline client onboarding with intelligent verification</p>
-                <div className="flex gap-4 justify-center">
-                  <button type="button" onClick={() => { setView('form'); setStep(1); }} className="bg-[#003D82] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-900 transition shadow-lg">Start Free Trial</button>
-                  <button type="button" className="bg-white text-[#003D82] border border-slate-200 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition shadow-sm">Watch Demo</button>
-                </div>
               </div>
             </header>
 
