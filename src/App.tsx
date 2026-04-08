@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import { supabase } from './lib/supabaseClient';
 import Login from './components/Login';
+import { ArrowRight, CheckCircle, Zap, Shield, BarChart3, LayoutDashboard } from 'lucide-react';
 
 type Customer = {
   id: string;
@@ -23,7 +24,7 @@ export default function App() {
   const [formState, setFormState] = useState<any>({ applicationId: Math.random().toString(36).substr(2, 9).toUpperCase() });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [view, setView] = useState<'home' | 'form' | 'list'>('home');
+  const [view, setView] = useState<'home' | 'form' | 'list' | 'login' | 'landing'>('landing');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -31,6 +32,7 @@ export default function App() {
       setLoading(false);
       if (session) {
         fetchCustomers();
+        setView('home');
       }
     });
 
@@ -40,8 +42,10 @@ export default function App() {
       setSession(session);
       if (session) {
         fetchCustomers();
+        setView('home');
       } else {
         setCustomers([]);
+        setView('landing');
       }
     });
 
@@ -63,8 +67,154 @@ export default function App() {
     }
   };
 
+  if (view === 'login') return <Login />;
+  
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  if (!session) return <Login />;
+  
+  if (view === 'landing') {
+    return (
+      <div className="min-h-screen bg-white text-slate-900 font-sans">
+        {/* Sticky Navigation */}
+        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="text-2xl font-bold text-[#003D82] tracking-tighter">PayZipp</div>
+            <div className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
+              <a href="#home" className="hover:text-[#003D82] transition">Home</a>
+              <a href="#features" className="hover:text-[#003D82] transition">Features</a>
+              <a href="#pricing" className="hover:text-[#003D82] transition">Pricing</a>
+              <a href="#docs" className="hover:text-[#003D82] transition">Docs</a>
+            </div>
+            <div className="flex gap-4">
+              <button onClick={() => setView('login')} className="text-sm font-semibold text-slate-600 hover:text-[#003D82] transition">Login</button>
+              <button onClick={() => setView('login')} className="text-sm font-semibold bg-[#003D82] text-white px-6 py-2.5 rounded-full hover:bg-blue-900 transition shadow-sm hover:shadow-md">Get Started</button>
+            </div>
+          </div>
+        </nav>
+
+        {/* Hero Section */}
+        <header id="home" className="py-24 md:py-32 bg-gradient-to-br from-blue-50 to-white overflow-hidden">
+          <div className="max-w-5xl mx-auto px-6 text-center relative">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6 leading-tight">Digital KYC Made Simple</h1>
+            <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Streamline your client onboarding with our secure, compliant, and automated KYC platform. Get verified in minutes, not days.</p>
+            <div className="flex gap-4 justify-center">
+              <button onClick={() => setView('login')} className="bg-[#003D82] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-900 transition flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                Start Free Trial <ArrowRight size={18} />
+              </button>
+              <button className="bg-white text-[#003D82] border border-slate-200 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition shadow-sm hover:shadow-md">Watch Demo</button>
+            </div>
+          </div>
+        </header>
+
+        {/* Features */}
+        <section id="features" className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Why Choose PayZipp?</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: Zap, title: 'Fast Verification', desc: 'Instant AI-powered document checks.' },
+                { icon: Shield, title: 'Compliance Ready', desc: 'Stay ahead of regulatory requirements.' },
+                { icon: CheckCircle, title: 'Seamless Integration', desc: 'API-first design for easy setup.' },
+                { icon: BarChart3, title: 'Real-time Dashboard', desc: 'Monitor onboarding progress instantly.' },
+              ].map((f, i) => (
+                <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#003D82]/20 transition-all duration-300">
+                  <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
+                    <f.icon className="text-[#003D82]" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-slate-900">{f.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Dashboard Preview */}
+        <section className="py-24 bg-slate-950 text-white">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="text-4xl font-extrabold mb-12 tracking-tighter">Powerful Dashboard</h2>
+            <div className="bg-slate-900 p-2 rounded-3xl border border-slate-800 shadow-2xl">
+              <div className="aspect-video bg-slate-950 rounded-2xl flex items-center justify-center text-slate-700 border border-slate-800">
+                <div className="text-center">
+                  <LayoutDashboard size={64} className="mx-auto mb-4" />
+                  <span className="text-xl font-semibold">Dashboard Preview</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing */}
+        <section id="pricing" className="py-24 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Simple Pricing</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {['Starter', 'Professional', 'Enterprise'].map((tier, i) => (
+                <div key={tier} className={`p-10 rounded-3xl border ${i === 1 ? 'border-[#003D82] shadow-xl bg-white scale-105' : 'border-slate-200 bg-white'}`}>
+                  <h3 className="text-2xl font-bold mb-2">{tier}</h3>
+                  <p className="text-5xl font-extrabold mb-8">{i === 0 ? '$49' : i === 1 ? '$149' : 'Custom'}<span className="text-lg font-normal text-slate-500">/mo</span></p>
+                  <button className={`w-full py-4 rounded-full font-semibold transition ${i === 1 ? 'bg-[#003D82] text-white hover:bg-blue-900' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}>Choose Plan</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Social Proof */}
+        <section className="py-24 bg-blue-50">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="text-4xl font-extrabold mb-16 tracking-tighter">Trusted by Industry Leaders</h2>
+            <div className="grid md:grid-cols-3 gap-12 mb-16">
+              <div><div className="text-5xl font-extrabold text-[#003D82] mb-2">10,000+</div><p className="text-slate-600 font-medium">Verified Customers</p></div>
+              <div><div className="text-5xl font-extrabold text-[#003D82] mb-2">99.9%</div><p className="text-slate-600 font-medium">Platform Uptime</p></div>
+              <div><div className="text-5xl font-extrabold text-[#003D82] mb-2">500+</div><p className="text-slate-600 font-medium">Companies Integrated</p></div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">What Our Customers Say</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { name: 'Sarah J.', role: 'CTO at FinTech Corp', quote: 'PayZipp transformed our onboarding process. Truly seamless.' },
+                { name: 'Mark T.', role: 'Founder at PayFlow', quote: 'Compliance was a nightmare until we found PayZipp.' },
+                { name: 'Elena R.', role: 'Operations at GlobalBank', quote: 'The real-time dashboard is a game changer for our team.' },
+              ].map((t, i) => (
+                <div key={i} className="p-8 bg-slate-50 rounded-3xl border border-slate-100 hover:border-[#003D82]/20 transition-all">
+                  <p className="text-slate-600 mb-6 italic leading-relaxed">"{t.quote}"</p>
+                  <div className="font-bold text-slate-900">{t.name}</div>
+                  <div className="text-sm text-slate-500">{t.role}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-24 bg-[#003D82] text-white text-center">
+          <h2 className="text-4xl font-bold mb-8">Ready to simplify KYC?</h2>
+          <div className="max-w-md mx-auto flex gap-2">
+            <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 rounded-full text-slate-900 outline-none" />
+            <button className="bg-white text-[#003D82] px-8 py-4 rounded-full font-semibold">Get Started</button>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="py-16 bg-slate-900 text-slate-400">
+          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <div><div className="text-2xl font-bold text-white mb-4 tracking-tighter">PayZipp</div><p className="text-sm leading-relaxed">Simplifying KYC for the modern financial world.</p></div>
+            <div><h4 className="font-bold text-white mb-4">Product</h4><ul className="space-y-2 text-sm"><li>Features</li><li>Pricing</li><li>API</li></ul></div>
+            <div><h4 className="font-bold text-white mb-4">Company</h4><ul className="space-y-2 text-sm"><li>About</li><li>Careers</li><li>Contact</li></ul></div>
+            <div><h4 className="font-bold text-white mb-4">Legal</h4><ul className="space-y-2 text-sm"><li>Privacy</li><li>Terms</li></ul></div>
+          </div>
+          <div className="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-slate-800 text-center text-sm">&copy; 2026 PayZipp. All rights reserved.</div>
+        </footer>
+      </div>
+    );
+  }
+
+  if (view === 'login') return <Login />;
 
   const handleUpload = async (file: File, folder: string) => {
     const { data, error } = await supabase.storage
@@ -193,21 +343,116 @@ export default function App() {
         </div>
 
         {view === 'home' ? (
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-primary p-8 rounded-3xl text-white shadow-xl shadow-blue-100">
-              <h2 className="text-3xl font-bold mb-4">Start New Application</h2>
-              <p className="text-blue-100 mb-8">Begin the digital KYC and onboarding process for a new client.</p>
-              <button onClick={() => { setView('form'); setStep(1); }} className="px-6 py-3 bg-white text-primary rounded-xl font-semibold hover:bg-blue-50 transition">
-                Create New Application
-              </button>
-            </div>
-            <div className="bg-card p-8 rounded-3xl shadow-sm border border-slate-200">
-              <h2 className="text-2xl font-bold mb-6 text-text">Recent Applications</h2>
-              <p className="text-slate-600 mb-6">View and manage your existing KYC applications.</p>
-              <button onClick={() => setView('list')} className="px-6 py-3 bg-text text-white rounded-xl font-semibold hover:bg-slate-800 transition">
-                View Customers
-              </button>
-            </div>
+          <div className="min-h-screen bg-white text-slate-900 font-sans">
+            {/* Sticky Navigation */}
+            <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+              <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div className="text-2xl font-bold text-[#003D82] tracking-tighter">PayZipp</div>
+                <div className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
+                  <a href="#home" className="hover:text-[#003D82] transition">Home</a>
+                  <a href="#features" className="hover:text-[#003D82] transition">Features</a>
+                  <a href="#pricing" className="hover:text-[#003D82] transition">Pricing</a>
+                  <a href="#docs" className="hover:text-[#003D82] transition">Docs</a>
+                </div>
+                <div className="flex gap-4">
+                  <button onClick={() => supabase.auth.signOut()} className="text-sm font-semibold text-slate-600 hover:text-[#003D82] transition">Logout</button>
+                </div>
+              </div>
+            </nav>
+
+            {/* Hero Section */}
+            <header className="py-24 bg-gradient-to-br from-blue-50 to-white">
+              <div className="max-w-5xl mx-auto px-6 text-center">
+                <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6 leading-tight">Digital KYC Made Simple</h1>
+                <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Streamline client onboarding with intelligent verification</p>
+                <div className="flex gap-4 justify-center">
+                  <button onClick={() => { setView('form'); setStep(1); }} className="bg-[#003D82] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-900 transition shadow-lg">Start Free Trial</button>
+                  <button className="bg-white text-[#003D82] border border-slate-200 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition shadow-sm">Watch Demo</button>
+                </div>
+              </div>
+            </header>
+
+            {/* Split Layout */}
+            <section className="py-16 bg-slate-50">
+              <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-8">
+                {/* Left Side (60%) */}
+                <div className="md:col-span-7 bg-[#003D82] p-10 rounded-3xl text-white shadow-xl">
+                  <h2 className="text-3xl font-extrabold mb-4 tracking-tighter">Start New Application</h2>
+                  <p className="text-blue-100 mb-8 leading-relaxed">Automated KYC verification in minutes</p>
+                  <button onClick={() => { setView('form'); setStep(1); }} className="px-8 py-4 bg-white text-[#003D82] rounded-full font-semibold hover:bg-blue-50 transition shadow-lg">
+                    Create New Application
+                  </button>
+                </div>
+                {/* Right Side (40%) */}
+                <div className="md:col-span-5 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                  <h2 className="text-2xl font-bold mb-6 text-slate-900 tracking-tighter">Recent Applications</h2>
+                  <div className="space-y-4">
+                    {customers.slice(0, 4).map(c => (
+                      <div key={c.id} className="p-4 border border-slate-100 rounded-xl flex justify-between items-center">
+                        <div>
+                          <div className="font-medium text-slate-900">{c.name}</div>
+                          <div className="text-xs text-slate-500">ID: {c.id}</div>
+                        </div>
+                        <div className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">Verified</div>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => setView('list')} className="mt-6 text-sm font-semibold text-[#003D82] hover:underline">View All</button>
+                </div>
+              </div>
+            </section>
+
+            {/* Features */}
+            <section id="features" className="py-24 bg-white">
+              <div className="max-w-7xl mx-auto px-6">
+                <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Why Choose PayZipp?</h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                  {[
+                    { icon: Zap, title: 'Instant Verification', desc: 'Instant AI-powered document checks.' },
+                    { icon: Shield, title: 'Compliance Ready', desc: 'Stay ahead of regulatory requirements.' },
+                    { icon: BarChart3, title: 'Real-time Monitoring', desc: 'Monitor onboarding progress instantly.' },
+                    { icon: CheckCircle, title: 'API Integration', desc: 'API-first design for easy setup.' },
+                  ].map((f, i) => (
+                    <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#003D82]/20 transition-all duration-300">
+                      <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
+                        <f.icon className="text-[#003D82]" size={28} />
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 text-slate-900">{f.title}</h3>
+                      <p className="text-slate-600 leading-relaxed">{f.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Stats Bar */}
+            <section className="py-16 bg-blue-50">
+              <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
+                <div><div className="text-4xl font-extrabold text-[#003D82] mb-2">10,000+</div><p className="text-slate-600 font-medium">Verified Customers</p></div>
+                <div><div className="text-4xl font-extrabold text-[#003D82] mb-2">99.9%</div><p className="text-slate-600 font-medium">Platform Uptime</p></div>
+                <div><div className="text-4xl font-extrabold text-[#003D82] mb-2">&lt; 2 min</div><p className="text-slate-600 font-medium">Onboarding</p></div>
+              </div>
+            </section>
+
+            {/* Final CTA */}
+            <section className="py-24 bg-[#003D82] text-white text-center">
+              <h2 className="text-4xl font-bold mb-8">Ready to simplify KYC?</h2>
+              <div className="max-w-md mx-auto flex gap-2">
+                <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 rounded-full text-slate-900 outline-none" />
+                <button className="bg-white text-[#003D82] px-8 py-4 rounded-full font-semibold">Get Started</button>
+              </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="py-16 bg-slate-900 text-slate-400">
+              <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+                <div><div className="text-2xl font-bold text-white mb-4 tracking-tighter">PayZipp</div><p className="text-sm leading-relaxed">Simplifying KYC for the modern financial world.</p></div>
+                <div><h4 className="font-bold text-white mb-4">Product</h4><ul className="space-y-2 text-sm"><li>Features</li><li>Pricing</li><li>API</li></ul></div>
+                <div><h4 className="font-bold text-white mb-4">Company</h4><ul className="space-y-2 text-sm"><li>About</li><li>Careers</li><li>Contact</li></ul></div>
+                <div><h4 className="font-bold text-white mb-4">Legal</h4><ul className="space-y-2 text-sm"><li>Privacy</li><li>Terms</li></ul></div>
+              </div>
+              <div className="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-slate-800 text-center text-sm">&copy; 2026 PayZipp. All rights reserved.</div>
+            </footer>
           </div>
         ) : view === 'form' ? (
           <div className="bg-card p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
