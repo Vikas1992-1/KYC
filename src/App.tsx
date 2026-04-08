@@ -40,12 +40,12 @@ export default function App() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session) {
+      if (_event === 'SIGNED_IN' && session) {
         fetchCustomers();
-        setView('home');
-      } else {
+        setView((prevView) => (prevView !== 'home' ? 'home' : prevView));
+      } else if (_event === 'SIGNED_OUT') {
         setCustomers([]);
-        setView('landing');
+        setView((prevView) => (prevView !== 'landing' ? 'landing' : prevView));
       }
     });
 
@@ -79,10 +79,10 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="text-2xl font-bold text-[#003D82] tracking-tighter">PayZipp</div>
             <div className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
-              <a href="#home" className="hover:text-[#003D82] transition">Home</a>
-              <a href="#features" className="hover:text-[#003D82] transition">Features</a>
-              <a href="#pricing" className="hover:text-[#003D82] transition">Pricing</a>
-              <a href="#docs" className="hover:text-[#003D82] transition">Docs</a>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Home</button>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Features</button>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Pricing</button>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('docs')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Docs</button>
             </div>
             <div className="flex gap-4">
               <button onClick={() => setView('login')} className="text-sm font-semibold text-slate-600 hover:text-[#003D82] transition">Login</button>
@@ -332,11 +332,19 @@ export default function App() {
           <div className="flex justify-between items-center mb-12">
             <h1 className="text-4xl font-bold text-primary tracking-tight">PayZipp</h1>
             <div className="flex gap-4">
-              {view !== 'home' && (
-                <button onClick={() => setView('home')} className="px-5 py-2.5 bg-card border border-slate-200 text-text rounded-xl hover:bg-slate-50 transition font-medium shadow-sm">
-                  Back to Dashboard
+              {view === 'form' && (
+                <button type="button" onClick={(e) => { e.preventDefault(); setView('list'); }} className="px-5 py-2.5 bg-card border border-slate-200 text-text rounded-xl hover:bg-slate-50 transition font-medium shadow-sm">
+                  View Applications
                 </button>
               )}
+              {view === 'list' && (
+                <button type="button" onClick={(e) => { e.preventDefault(); setView('form'); setStep(1); }} className="px-5 py-2.5 bg-card border border-slate-200 text-text rounded-xl hover:bg-slate-50 transition font-medium shadow-sm">
+                  New Application
+                </button>
+              )}
+              <button type="button" onClick={(e) => { e.preventDefault(); setView('home'); }} className="px-5 py-2.5 bg-card border border-slate-200 text-text rounded-xl hover:bg-slate-50 transition font-medium shadow-sm">
+                Back to Dashboard
+              </button>
               <button onClick={() => supabase.auth.signOut()} className="px-5 py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-xl hover:bg-red-100 transition font-medium">
                 Logout
               </button>
@@ -351,10 +359,10 @@ export default function App() {
               <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                 <div className="text-2xl font-bold text-[#003D82] tracking-tighter">PayZipp</div>
                 <div className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
-                  <a href="#home" className="hover:text-[#003D82] transition">Home</a>
-                  <a href="#features" className="hover:text-[#003D82] transition">Features</a>
-                  <a href="#pricing" className="hover:text-[#003D82] transition">Pricing</a>
-                  <a href="#docs" className="hover:text-[#003D82] transition">Docs</a>
+                  <button onClick={(e) => { e.preventDefault(); document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Home</button>
+                  <button onClick={(e) => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Features</button>
+                  <button onClick={(e) => { e.preventDefault(); document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Pricing</button>
+                  <button onClick={(e) => { e.preventDefault(); document.getElementById('docs')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-[#003D82] transition">Docs</button>
                 </div>
                 <div className="flex gap-4">
                   <button onClick={() => supabase.auth.signOut()} className="text-sm font-semibold text-slate-600 hover:text-[#003D82] transition">Logout</button>
@@ -368,8 +376,8 @@ export default function App() {
                 <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6 leading-tight">Digital KYC Made Simple</h1>
                 <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Streamline client onboarding with intelligent verification</p>
                 <div className="flex gap-4 justify-center">
-                  <button onClick={() => { setView('form'); setStep(1); }} className="bg-[#003D82] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-900 transition shadow-lg">Start Free Trial</button>
-                  <button className="bg-white text-[#003D82] border border-slate-200 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition shadow-sm">Watch Demo</button>
+                  <button type="button" onClick={() => { setView('form'); setStep(1); }} className="bg-[#003D82] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-900 transition shadow-lg">Start Free Trial</button>
+                  <button type="button" className="bg-white text-[#003D82] border border-slate-200 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition shadow-sm">Watch Demo</button>
                 </div>
               </div>
             </header>
@@ -381,7 +389,7 @@ export default function App() {
                 <div className="md:col-span-5 bg-[#003D82] p-8 rounded-3xl text-white shadow-xl">
                   <h2 className="text-3xl font-extrabold mb-4 tracking-tighter">Onboard New Customer</h2>
                   <p className="text-blue-100 mb-8 leading-relaxed">Automated KYC verification in minutes</p>
-                  <button onClick={() => { setView('form'); setStep(1); }} className="px-8 py-4 bg-white text-[#003D82] rounded-full font-semibold hover:bg-blue-50 transition shadow-lg">
+                  <button type="button" onClick={() => { setView('form'); setStep(1); }} className="px-8 py-4 bg-white text-[#003D82] rounded-full font-semibold hover:bg-blue-50 transition shadow-lg">
                     Onboard New Customer
                   </button>
                 </div>
@@ -399,7 +407,7 @@ export default function App() {
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => setView('list')} className="mt-6 text-sm font-semibold text-[#003D82] hover:underline">View All</button>
+                  <button type="button" onClick={() => setView('list')} className="mt-6 text-sm font-semibold text-[#003D82] hover:underline">View All</button>
                 </div>
               </div>
             </section>
