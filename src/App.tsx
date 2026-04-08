@@ -99,6 +99,29 @@ export default function App() {
             </div>
         </header>
 
+        {/* Features */}
+        <section id="features" className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Why Choose PayZipp?</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: Zap, title: 'Instant Verification', desc: 'Instant AI-powered document checks.' },
+                { icon: Shield, title: 'Compliance Ready', desc: 'Stay ahead of regulatory requirements.' },
+                { icon: BarChart3, title: 'Real-time Monitoring', desc: 'Monitor onboarding progress instantly.' },
+                { icon: CheckCircle, title: 'API Integration', desc: 'API-first design for easy setup.' },
+              ].map((f, i) => (
+                <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#003D82]/20 transition-all duration-300">
+                  <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
+                    <f.icon className="text-[#003D82]" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-slate-900">{f.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Social Proof */}
         <section className="py-24 bg-blue-50">
           <div className="max-w-7xl mx-auto px-6 text-center">
