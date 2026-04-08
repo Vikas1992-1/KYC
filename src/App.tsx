@@ -377,16 +377,16 @@ export default function App() {
             {/* Split Layout */}
             <section className="py-16 bg-slate-50">
               <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-8">
-                {/* Left Side (60%) */}
-                <div className="md:col-span-7 bg-[#003D82] p-10 rounded-3xl text-white shadow-xl">
-                  <h2 className="text-3xl font-extrabold mb-4 tracking-tighter">Start New Application</h2>
+                {/* Left Side (50%) */}
+                <div className="md:col-span-5 bg-[#003D82] p-8 rounded-3xl text-white shadow-xl">
+                  <h2 className="text-3xl font-extrabold mb-4 tracking-tighter">Onboard New Customer</h2>
                   <p className="text-blue-100 mb-8 leading-relaxed">Automated KYC verification in minutes</p>
                   <button onClick={() => { setView('form'); setStep(1); }} className="px-8 py-4 bg-white text-[#003D82] rounded-full font-semibold hover:bg-blue-50 transition shadow-lg">
-                    Create New Application
+                    Onboard New Customer
                   </button>
                 </div>
-                {/* Right Side (40%) */}
-                <div className="md:col-span-5 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                {/* Right Side (70%) */}
+                <div className="md:col-span-7 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
                   <h2 className="text-2xl font-bold mb-6 text-slate-900 tracking-tighter">Recent Applications</h2>
                   <div className="space-y-4">
                     {customers.slice(0, 4).map(c => (
@@ -433,15 +433,6 @@ export default function App() {
                 <div><div className="text-4xl font-extrabold text-[#003D82] mb-2">10,000+</div><p className="text-slate-600 font-medium">Verified Customers</p></div>
                 <div><div className="text-4xl font-extrabold text-[#003D82] mb-2">99.9%</div><p className="text-slate-600 font-medium">Platform Uptime</p></div>
                 <div><div className="text-4xl font-extrabold text-[#003D82] mb-2">&lt; 2 min</div><p className="text-slate-600 font-medium">Onboarding</p></div>
-              </div>
-            </section>
-
-            {/* Final CTA */}
-            <section className="py-24 bg-[#003D82] text-white text-center">
-              <h2 className="text-4xl font-bold mb-8">Ready to simplify KYC?</h2>
-              <div className="max-w-md mx-auto flex gap-2">
-                <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 rounded-full text-slate-900 outline-none" />
-                <button className="bg-white text-[#003D82] px-8 py-4 rounded-full font-semibold">Get Started</button>
               </div>
             </section>
 
