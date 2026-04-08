@@ -96,68 +96,8 @@ export default function App() {
           <div className="max-w-5xl mx-auto px-6 text-center relative">
             <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6 leading-tight">Digital KYC Made Simple</h1>
             <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Streamline your client onboarding with our secure, compliant, and automated KYC platform. Get verified in minutes, not days.</p>
-            <div className="flex gap-4 justify-center">
-              <button onClick={() => setView('login')} className="bg-[#003D82] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-900 transition flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                Start Free Trial <ArrowRight size={18} />
-              </button>
-              <button className="bg-white text-[#003D82] border border-slate-200 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition shadow-sm hover:shadow-md">Watch Demo</button>
             </div>
-          </div>
         </header>
-
-        {/* Features */}
-        <section id="features" className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Why Choose PayZipp?</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { icon: Zap, title: 'Fast Verification', desc: 'Instant AI-powered document checks.' },
-                { icon: Shield, title: 'Compliance Ready', desc: 'Stay ahead of regulatory requirements.' },
-                { icon: CheckCircle, title: 'Seamless Integration', desc: 'API-first design for easy setup.' },
-                { icon: BarChart3, title: 'Real-time Dashboard', desc: 'Monitor onboarding progress instantly.' },
-              ].map((f, i) => (
-                <div key={i} className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#003D82]/20 transition-all duration-300">
-                  <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6">
-                    <f.icon className="text-[#003D82]" size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3 text-slate-900">{f.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Dashboard Preview */}
-        <section className="py-24 bg-slate-950 text-white">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <h2 className="text-4xl font-extrabold mb-12 tracking-tighter">Powerful Dashboard</h2>
-            <div className="bg-slate-900 p-2 rounded-3xl border border-slate-800 shadow-2xl">
-              <div className="aspect-video bg-slate-950 rounded-2xl flex items-center justify-center text-slate-700 border border-slate-800">
-                <div className="text-center">
-                  <LayoutDashboard size={64} className="mx-auto mb-4" />
-                  <span className="text-xl font-semibold">Dashboard Preview</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section id="pricing" className="py-24 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Simple Pricing</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {['Starter', 'Professional', 'Enterprise'].map((tier, i) => (
-                <div key={tier} className={`p-10 rounded-3xl border ${i === 1 ? 'border-[#003D82] shadow-xl bg-white scale-105' : 'border-slate-200 bg-white'}`}>
-                  <h3 className="text-2xl font-bold mb-2">{tier}</h3>
-                  <p className="text-5xl font-extrabold mb-8">{i === 0 ? '$49' : i === 1 ? '$149' : 'Custom'}<span className="text-lg font-normal text-slate-500">/mo</span></p>
-                  <button className={`w-full py-4 rounded-full font-semibold transition ${i === 1 ? 'bg-[#003D82] text-white hover:bg-blue-900' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}>Choose Plan</button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Social Proof */}
         <section className="py-24 bg-blue-50">
@@ -188,15 +128,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="py-24 bg-[#003D82] text-white text-center">
-          <h2 className="text-4xl font-bold mb-8">Ready to simplify KYC?</h2>
-          <div className="max-w-md mx-auto flex gap-2">
-            <input type="email" placeholder="Enter your email" className="flex-1 px-6 py-4 rounded-full text-slate-900 outline-none" />
-            <button className="bg-white text-[#003D82] px-8 py-4 rounded-full font-semibold">Get Started</button>
           </div>
         </section>
 
