@@ -42,7 +42,7 @@ export default function App() {
       setSession(session);
       if (_event === 'SIGNED_IN' && session) {
         fetchCustomers();
-        setView((prevView) => (prevView !== 'home' ? 'home' : prevView));
+        setView((prevView) => (prevView === 'landing' || prevView === 'login' ? 'home' : prevView));
       } else if (_event === 'SIGNED_OUT') {
         setCustomers([]);
         setView((prevView) => (prevView !== 'landing' ? 'landing' : prevView));
