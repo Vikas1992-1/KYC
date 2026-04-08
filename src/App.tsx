@@ -328,19 +328,21 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8 text-text">
       <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center mb-12">
-          <h1 className="text-4xl font-bold text-primary tracking-tight">PayZipp</h1>
-          <div className="flex gap-4">
-            {view !== 'home' && (
-              <button onClick={() => setView('home')} className="px-5 py-2.5 bg-card border border-slate-200 text-text rounded-xl hover:bg-slate-50 transition font-medium shadow-sm">
-                Back to Dashboard
+        {view !== 'home' && (
+          <div className="flex justify-between items-center mb-12">
+            <h1 className="text-4xl font-bold text-primary tracking-tight">PayZipp</h1>
+            <div className="flex gap-4">
+              {view !== 'home' && (
+                <button onClick={() => setView('home')} className="px-5 py-2.5 bg-card border border-slate-200 text-text rounded-xl hover:bg-slate-50 transition font-medium shadow-sm">
+                  Back to Dashboard
+                </button>
+              )}
+              <button onClick={() => supabase.auth.signOut()} className="px-5 py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-xl hover:bg-red-100 transition font-medium">
+                Logout
               </button>
-            )}
-            <button onClick={() => supabase.auth.signOut()} className="px-5 py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-xl hover:bg-red-100 transition font-medium">
-              Logout
-            </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {view === 'home' ? (
           <div className="min-h-screen bg-white text-slate-900 font-sans">
