@@ -92,7 +92,7 @@ export default function App() {
         </nav>
 
         {/* Hero Section */}
-        <header id="home" className="py-24 md:py-32 bg-gradient-to-br from-blue-50 to-white overflow-hidden">
+        <header id="home" className="py-16 md:py-20 bg-gradient-to-br from-blue-50 to-white overflow-hidden">
           <div className="max-w-5xl mx-auto px-6 text-center relative">
             <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6 leading-tight">Digital KYC Made Simple</h1>
             <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">Streamline your client onboarding with our secure, compliant, and automated KYC platform. Get verified in minutes, not days.</p>
@@ -100,7 +100,7 @@ export default function App() {
         </header>
 
         {/* Features */}
-        <section id="features" className="py-24 bg-white">
+        <section id="features" className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">Why Choose PayZipp?</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -123,7 +123,7 @@ export default function App() {
         </section>
 
         {/* Social Proof */}
-        <section className="py-24 bg-blue-50">
+        <section className="py-16 bg-blue-50">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h2 className="text-4xl font-extrabold mb-16 tracking-tighter">Trusted by Industry Leaders</h2>
             <div className="grid md:grid-cols-3 gap-12 mb-16">
@@ -135,7 +135,7 @@ export default function App() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-24 bg-white">
+        <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl font-extrabold text-center mb-16 tracking-tighter">What Our Customers Say</h2>
             <div className="grid md:grid-cols-3 gap-8">
@@ -155,7 +155,7 @@ export default function App() {
         </section>
 
         {/* Footer */}
-        <footer className="py-16 bg-slate-900 text-slate-400">
+        <footer className="py-12 bg-slate-900 text-slate-400">
           <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
             <div><div className="text-2xl font-bold text-white mb-4 tracking-tighter">PayZipp</div><p className="text-sm leading-relaxed">Simplifying KYC for the modern financial world.</p></div>
             <div><h4 className="font-bold text-white mb-4">Product</h4><ul className="space-y-2 text-sm"><li>Features</li><li>Pricing</li><li>API</li></ul></div>
