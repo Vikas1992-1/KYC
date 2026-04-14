@@ -232,6 +232,17 @@ export default function App() {
     }
   };
 
+  const viewDocument = async (applicationId: string, folder: string) => {
+    const { data, error } = await supabase.storage.from('KYC').list('', { search: applicationId + '_' + folder });
+    if (error || !data || data.length === 0) {
+      alert('Document not found');
+      return;
+    }
+    const file = data[0];
+    const { data: urlData } = supabase.storage.from('KYC').getPublicUrl(file.name);
+    window.open(urlData.publicUrl, '_blank');
+  };
+
   const editCustomer = async (customer: Customer) => {
     const { data, error } = await supabase
       .from('kyc_applications')
@@ -495,6 +506,7 @@ export default function App() {
                     <th className="p-3">Address</th>
                     <th className="p-3">Pincode</th>
                     <th className="p-3">Action</th>
+                    <th className="p-3">Documents</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -507,6 +519,13 @@ export default function App() {
                       <td className="p-3 text-slate-600">{c.pincode}</td>
                       <td className="p-3">
                         <button onClick={() => editCustomer(c)} className="text-primary hover:underline">Edit</button>
+                      </td>
+                      <td className="p-3 flex gap-2">
+                        <button onClick={() => viewDocument(c.id, 'Aadhar')} className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200">Aadhar</button>
+                        <button onClick={() => viewDocument(c.id, 'PAN')} className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200">PAN</button>
+                        <button onClick={() => viewDocument(c.id, 'VoterID')} className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200">VoterID</button>
+                        <button onClick={() => viewDocument(c.id, 'Selfie')} className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200">Selfie</button>
+                        <button onClick={() => viewDocument(c.id, 'BankDetails')} className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200">Bank</button>
                       </td>
                     </tr>
                   ))}
