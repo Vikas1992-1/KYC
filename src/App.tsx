@@ -348,10 +348,10 @@ export default function App() {
               <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-8">
                 {/* Left Side (50%) */}
                 <div className="md:col-span-5 bg-[#003D82] p-8 rounded-3xl text-white shadow-xl">
-                  <h2 className="text-3xl font-extrabold mb-4 tracking-tighter">Onboard New Customer</h2>
+                  <h2 className="text-3xl font-extrabold mb-4 tracking-tighter">Apply for Loan</h2>
                   <p className="text-blue-100 mb-8 leading-relaxed">Automated KYC verification in minutes</p>
                   <button type="button" onClick={() => { setView('form'); setStep(1); }} className="px-8 py-4 bg-white text-[#003D82] rounded-full font-semibold hover:bg-blue-50 transition shadow-lg">
-                    Onboard New Customer
+                    Apply for Loan
                   </button>
                 </div>
                 {/* Right Side (70%) */}
