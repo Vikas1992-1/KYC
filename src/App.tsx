@@ -27,7 +27,15 @@ export default function App() {
   const [view, setView] = useState<'home' | 'form' | 'list' | 'login' | 'landing'>('landing');
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('Error getting session:', error);
+        supabase.auth.signOut();
+        setSession(null);
+        setLoading(false);
+        setView('landing');
+        return;
+      }
       setSession(session);
       setLoading(false);
       if (session) {
@@ -241,6 +249,19 @@ export default function App() {
     const file = data[0];
     const { data: urlData } = supabase.storage.from('KYC').getPublicUrl(file.name);
     window.open(urlData.publicUrl, '_blank');
+  };
+
+  const deleteCustomer = async (customer: Customer) => {
+    const { error } = await supabase
+      .from('kyc_applications')
+      .delete()
+      .eq('application_id', customer.id);
+    
+    if (error) {
+      console.error('Error deleting customer:', error);
+      return;
+    }
+    fetchCustomers();
   };
 
   const editCustomer = async (customer: Customer) => {
@@ -517,8 +538,9 @@ export default function App() {
                       <td className="p-3 text-slate-600">{c.dob}</td>
                       <td className="p-3 text-slate-600">{c.address}</td>
                       <td className="p-3 text-slate-600">{c.pincode}</td>
-                      <td className="p-3">
+                      <td className="p-3 flex gap-2">
                         <button onClick={() => editCustomer(c)} className="text-primary hover:underline">Edit</button>
+                        <button onClick={() => deleteCustomer(c)} className="text-red-600 hover:underline">Delete</button>
                       </td>
                       <td className="p-3 flex gap-2">
                         <button onClick={() => viewDocument(c.id, 'Aadhar')} className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200">Aadhar</button>
