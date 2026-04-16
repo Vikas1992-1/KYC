@@ -521,6 +521,7 @@ export default function App() {
               <table className="w-full text-left">
                 <thead>
                   <tr className="border-b border-slate-200 text-slate-600">
+                    <th className="p-3">S.No</th>
                     <th className="p-3">ID</th>
                     <th className="p-3">Name</th>
                     <th className="p-3">DOB</th>
@@ -531,8 +532,9 @@ export default function App() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {customers.map(c => (
+                  {customers.map((c, i) => (
                     <tr key={c.id} className="hover:bg-slate-50">
+                      <td className="p-3 text-slate-600">{i + 1}</td>
                       <td className="p-3 font-mono text-slate-500">{c.id}</td>
                       <td className="p-3 font-medium text-text">{c.name}</td>
                       <td className="p-3 text-slate-600">{c.dob}</td>
