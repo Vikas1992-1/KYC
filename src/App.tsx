@@ -26,6 +26,16 @@ export default function App() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [view, setView] = useState<'home' | 'form' | 'list' | 'login' | 'landing'>('landing');
 
+  function formatDateToDDMMYYYY(dateString: string) {
+    if (!dateString) return '';
+    if (/^\d{2}-\d{2}-\d{4}$/.test(dateString)) return dateString;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+      const [y, m, d] = dateString.split('-');
+      return `${d}-${m}-${y}`;
+    }
+    return dateString;
+  }
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (error) {
@@ -60,7 +70,7 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchCustomers = async () => {
+  async function fetchCustomers() {
     const { data, error } = await supabase.from('kyc_applications').select('*');
     if (error) {
       console.error('Error fetching customers:', error);
@@ -68,12 +78,12 @@ export default function App() {
       setCustomers(data.map(c => ({
         id: c.application_id,
         name: c.name,
-        dob: c.dob,
+        dob: formatDateToDDMMYYYY(c.dob),
         address: c.address_line1,
         pincode: c.pincode,
       })));
     }
-  };
+  }
 
   if (view === 'login') return <Login />;
   
@@ -282,7 +292,7 @@ export default function App() {
       name: data.name,
       fatherName: data.father_name,
       motherName: data.mother_name,
-      dob: data.dob,
+      dob: formatDateToDDMMYYYY(data.dob),
       gender: data.gender,
       pan: data.pan,
       martialStatus: data.martial_status,
@@ -460,7 +470,14 @@ export default function App() {
                     <div><label className={labelClass}>Full Name (as per Aadhar)</label><input type="text" value={formState.name || ''} className={inputClass} onChange={(e) => setFormState({...formState, name: e.target.value})} /></div>
                     <div><label className={labelClass}>Father Name</label><input type="text" value={formState.fatherName || ''} className={inputClass} onChange={(e) => setFormState({...formState, fatherName: e.target.value})} /></div>
                     <div><label className={labelClass}>Mother Name</label><input type="text" value={formState.motherName || ''} className={inputClass} onChange={(e) => setFormState({...formState, motherName: e.target.value})} /></div>
-                    <div><label className={labelClass}>Date of Birth</label><input type="date" value={formState.dob || ''} className={inputClass} onChange={(e) => setFormState({...formState, dob: e.target.value})} /></div>
+                    <div><label className={labelClass}>Date of Birth (DD-MM-YYYY)</label><input type="text" placeholder="DD-MM-YYYY" value={formState.dob || ''} className={inputClass} onChange={(e) => {
+                      let val = e.target.value.replace(/[^0-9]/g, '');
+                      if (val.length > 8) val = val.slice(0, 8);
+                      let formatted = val;
+                      if (val.length > 4) formatted = `${val.slice(0, 2)}-${val.slice(2, 4)}-${val.slice(4)}`;
+                      else if (val.length > 2) formatted = `${val.slice(0, 2)}-${val.slice(2)}`;
+                      setFormState({...formState, dob: formatted});
+                    }} /></div>
                     <div><label className={labelClass}>Gender</label><select value={formState.gender || ''} className={inputClass} onChange={(e) => setFormState({...formState, gender: e.target.value})}><option value="">Select</option><option value="male">Male</option><option value="female">Female</option></select></div>
                     <div><label className={labelClass}>PAN</label><input type="text" value={formState.pan || ''} className={inputClass} onChange={(e) => setFormState({...formState, pan: e.target.value})} /></div>
                     <div><label className={labelClass}>Martial Status</label><input type="text" value={formState.martialStatus || ''} className={inputClass} onChange={(e) => setFormState({...formState, martialStatus: e.target.value})} /></div>
